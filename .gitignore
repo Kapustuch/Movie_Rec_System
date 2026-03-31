@@ -1,0 +1,21 @@
+# --- DATA ---
+*.csv
+*.zip
+*.parquet
+
+# --- MODELS ---
+*.pkl
+*.model
+*.joblib
+*.h5
+
+# --- PYTHON & JUPYTER ---
+__pycache__/
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+venv/
+.env
+
+# --- LOGS & TEMP ---
+*.log
+.DS_Store
