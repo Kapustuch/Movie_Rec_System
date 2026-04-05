@@ -7,5 +7,4 @@ scipy
 scikit-surprise
 lightfm
 jupyter
-os
 ast
