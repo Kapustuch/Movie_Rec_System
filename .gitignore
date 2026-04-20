@@ -5,6 +5,7 @@
 
 # --- MODELS ---
 *.pkl
+*.npz
 *.model
 *.joblib
 *.h5
