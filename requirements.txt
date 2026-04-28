@@ -1,9 +1,10 @@
-# Python 3.10.x
-lightfm==1.17
-pandas>=2.0.0
-numpy<2.0.0
-scipy
+pandas
+numpy
 scikit-learn
-matplotlib
 seaborn
-ipykernel
+matplotlib
+scipy
+scikit-surprise
+lightfm
+jupyter
+ast
