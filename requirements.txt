@@ -1,7 +1,16 @@
+# Data Science & Machine Learning
 pandas
 numpy
 scikit-learn
+scipy
+lightgbm
+
+# Data Visualization & Notebooks
 seaborn
 matplotlib
-scipy
 jupyter
+
+# Backend & Web API
+fastapi
+uvicorn
+pydantic

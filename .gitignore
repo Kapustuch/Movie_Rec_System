@@ -3,12 +3,16 @@
 *.zip
 *.parquet
 
+!data/preprocessed/*.csv
+
 # --- MODELS ---
 *.pkl
 *.model
 *.joblib
 *.h5
-lightgbm_hybrid_final.txt
+
+!data/preprocessed/*.pkl
+!models/*.txt
 
 # --- PYTHON & JUPYTER ---
 __pycache__/
