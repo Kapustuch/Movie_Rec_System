@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Advisor Admin</title> 
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-10"> 
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md">
+        <h1 class="text-2xl font-bold mb-6">Campaign Settings</h1>
+        
+        <form action="/generate" method="POST">
+            <div class="grid grid-cols-2 gap-8"> 
+                
+                <!-- LEFT COLUMN: Movie Selection -->
+                <div>
+                    <h3 class="font-semibold mb-2">Select Movies:</h3>
+                    <div class="space-y-2 border p-4 rounded bg-gray-50">
+                        {% for movie in movies %}
+                        <label class="flex items-center">
+                            <input type="checkbox" name="movies" value="{{ movie }}" class="mr-2">
+                            {{ movie }} 
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Macro Targeting Options -->
+                <div>
+                    <h3 class="font-semibold mb-2">Select Generation Strategy:</h3>
+                    <div class="space-y-4 border p-4 rounded bg-gray-50 mb-6">
+                        <label class="flex items-start">
+                            <input type="checkbox" name="strategies" value="age_group" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded">
+                            <div>
+                                <span class="font-medium block">Split by Age Group</span>
+                                <span class="text-xs text-gray-500 block">Generates 3 descriptions for each movie (Teen, Adult, Senior)</span>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-start">
+                            <input type="checkbox" name="strategies" value="interest" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded">
+                            <div>
+                                <span class="font-medium block">Split by Interest</span>
+                                <span class="text-xs text-gray-500 block">Generates 3 descriptions for each movie (Action, Drama, General)</span>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700">
+                        Generate Packages
+                    </button>
+                </div>
+            </div>
+        </form>
+        
+        <div class="mt-6 text-center">
+            <a href="/review" class="text-blue-500 underline">Go to Template Moderation →</a>
+        </div>
+    </div>
+</body>
+</html>

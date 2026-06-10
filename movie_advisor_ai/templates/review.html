@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review & Delivery | Movie Advisor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6 md:p-12">
+
+    <div class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-extrabold text-gray-800">Newsletter Template Moderation</h1>
+            <a href="/" class="text-blue-600 hover:text-blue-800 font-medium">← Back</a>
+        </div>
+
+        <div class="grid gap-6">
+            {% if messages %}
+                {% for id, age_group, interest, movie, desc in messages %}
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500 flex flex-col md:flex-row justify-between items-start md:items-center transition-all" id="card-{{ id }}">
+                    
+                    <div class="flex-1 pr-4">
+                        <div class="flex flex-wrap items-center gap-2 mb-3">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full uppercase">
+                                👤 Group: {{ age_group }}
+                            </span>
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full uppercase">
+                                🔥 Interest: {{ interest }}
+                            </span>
+                            <span class="text-lg font-bold text-gray-800 ml-2">
+                                🎬 Movie: "{{ movie }}"
+                            </span>
+                        </div>
+                        <p class="text-gray-600 italic leading-relaxed bg-gray-50 p-4 rounded-lg border" id="text-{{ id }}">
+                            "{{ desc }}"
+                        </p>
+                    </div>
+                    
+                    <div class="flex space-x-2 mt-4 md:mt-0">
+                        <button onclick="regenerate({{ id }})" 
+                                class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg text-sm font-semibold transition shadow-sm active:scale-95">
+                            Regenerate
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center py-20 bg-white rounded-xl shadow-sm">
+                    <p class="text-gray-500">No generated templates found. Please configure a target group and select movies on the main page.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if messages %}
+        <div class="mt-12 text-center">
+            <form action="/send_all" method="POST">
+                <button type="submit" 
+                        class="bg-red-600 hover:bg-red-700 text-white text-xl font-bold py-4 px-16 rounded-full shadow-xl transform transition hover:scale-105 active:scale-95">
+                    Send to All Group Clients 🚀
+                </button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+    function regenerate(msgId) {
+        const textElement = document.getElementById(`text-${msgId}`);
+        const cardElement = document.getElementById(`card-${msgId}`);
+        const originalText = textElement.innerText;
+        
+        // Provide visual interaction cue during ongoing network fetch operation
+        textElement.innerText = "AI is rewriting the text for this target group... ⏳";
+        cardElement.classList.add("opacity-50"); 
+
+        // Execute asynchronous HTTP POST action against backend router endpoint
+        fetch(`/regenerate_message/${msgId}`, { method: 'POST' })
+        .then(response => {
+            if (!response.ok) throw new Error('Server error occurred');
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                // Apply successful payload update to DOM text target with transition cue
+                textElement.innerText = `"${data.new_description}"`;
+                textElement.classList.add("text-green-600");
+                setTimeout(() => textElement.classList.remove("text-green-600"), 2000);
+            } else {
+                // Display operational validation response errors returned by application core
+                alert("Error: " + data.message);
+                textElement.innerText = originalText;
+            }
+        })
+        .catch(error => {
+            // Error handling fallback block addressing client-side network failures
+            alert("Connection error occurred!");
+            textElement.innerText = originalText;
+        })
+        .finally(() => {
+            // Restore structural visual layout state regardless of operation lifecycle results
+            cardElement.classList.remove("opacity-50");
+        });
+    }
+    </script>
+</body>
+</html>
